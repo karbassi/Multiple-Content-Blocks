@@ -48,11 +48,9 @@ function add_multiplecontent_box() {
 					$fileToRead = validate_file_to_edit($fileToRead, $allowed_files);
 					$realFile = get_real_file_to_edit($fileToRead);
 					if (!file_exists($realFile) ) {
-						if (!fopen($realFile, 'r')) {
-							$fileToRead = substr($orig, 0 ,-7) . 'page.php';
-						} else {
-							$fileToRead = substr($orig, 0 ,-7) . 'page.php';
-						}
+						$fileToRead = substr($orig, 0 ,-7) . 'page.php';
+					} elseif (!fopen($realFile, 'r')) {
+						$fileToRead = substr($orig, 0 ,-7) . 'page.php';
 					}
 				} else {
 					$fileToRead = substr($orig, 0 ,-7) . 'page.php';
@@ -77,10 +75,9 @@ function add_multiplecontent_box() {
 
 	if(fopen(str_replace($current_theme_url,$child_theme_url,$fileToRead), 'r')) { //child theme exists
 		$fileToRead = str_replace($current_theme_url,$child_theme_url,$fileToRead);
-		$f = fopen($fileToRead, 'r');
-	} else {
-		$f = fopen($fileToRead, 'r');
 	}
+	$f = fopen($fileToRead, 'r');
+
 	$contents = fread($f, filesize($fileToRead));
 	$contents = htmlspecialchars( $contents );
 	
