@@ -34,6 +34,10 @@ Use the function `get_the_block` instead of `the_block`, like this: `<?php $cont
 Changelog
 =========
 
+1.4.2
+-----
+* Added functionality for templates in the structure of `page-slug.php` to be also read.
+
 1.4.1
 -----
 * Fixed a small bug when using MCB in Posts
