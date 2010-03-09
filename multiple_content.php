@@ -3,9 +3,9 @@
 Plugin Name: Multiple content blocks
 Plugin URI: http://plugins.trendwerk.nl/documentation/multiple-content-blocks/
 Description: Lets you use more than one content "block" on a template. You only have to insert one tag inside the template, so it's easy to use.
-Version: 1.4.1
-Author: Ontwerpstudio Trendwerk
-Author URI: http://plugins.trendwerk.nl/
+Version: 1.4.2
+Author: Ontwerpstudio Trendwerk & Ali Karbassi
+Author URI: http://plugins.trendwerk.nl/ http://karbassi.com
 */
 
 function init_multiplecontent() {
@@ -42,7 +42,13 @@ function add_multiplecontent_box() {
 			if($post->post_type == 'post') {
 				$fileToRead = substr($fileToRead, 0 ,-7) . 'single.php';
 			} else {
-				$fileToRead = substr($fileToRead, 0 ,-7) . 'page.php';
+
+				$fileToRead = substr( $fileToRead, 0, -7) . 'page-' . $post->post_name . '.php';
+				$fileToRead = validate_file_to_edit($fileToRead, $allowed_files);
+
+				if (!fopen(get_real_file_to_edit($fileToRead), 'r')) {
+					$fileToRead = substr($fileToRead, 0 ,-7) . 'page.php';
+				}
 			}
 		} else {
 			if($post->post_type == 'post') {
