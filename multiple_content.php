@@ -42,12 +42,20 @@ function add_multiplecontent_box() {
 			if($post->post_type == 'post') {
 				$fileToRead = substr($fileToRead, 0 ,-7) . 'single.php';
 			} else {
-
-				$fileToRead = substr( $fileToRead, 0, -7) . 'page-' . $post->post_name . '.php';
-				$fileToRead = validate_file_to_edit($fileToRead, $allowed_files);
-
-				if (!fopen(get_real_file_to_edit($fileToRead), 'r')) {
-					$fileToRead = substr($fileToRead, 0 ,-7) . 'page.php';
+				$orig = $fileToRead;
+				if ($post->post_name) {
+					$fileToRead = substr( $fileToRead, 0, -7) . 'page-' . $post->post_name . '.php';
+					$fileToRead = validate_file_to_edit($fileToRead, $allowed_files);
+					$realFile = get_real_file_to_edit($fileToRead);
+					if (!file_exists($realFile) ) {
+						if (!fopen($realFile, 'r')) {
+							$fileToRead = substr($orig, 0 ,-7) . 'page.php';
+						} else {
+							$fileToRead = substr($orig, 0 ,-7) . 'page.php';
+						}
+					}
+				} else {
+					$fileToRead = substr($orig, 0 ,-7) . 'page.php';
 				}
 			}
 		} else {
